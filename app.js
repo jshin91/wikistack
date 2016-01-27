@@ -6,6 +6,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var wikiRouter = require('./routes/wiki')
+require('./filters')(swig);
 
 
 //swig boilerplate
@@ -23,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false })); //for HTML form submits
 app.use(bodyParser.json()) //for AJAX requests
 
 app.get('/', function(req, res, next) {
-	res.render('index');
+	res.redirect('/wiki');
 })
 
 app.use('/wiki', wikiRouter);

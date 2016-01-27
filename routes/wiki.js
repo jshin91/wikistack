@@ -13,7 +13,11 @@ var User = models.User;
 
 
 router.get('/', function(req, res, next) {
-  res.redirect('/');
+   Page.find({})
+  .then(function(pagesArr) {
+  	var obj = {pages: pagesArr};
+  	res.render('index', obj);
+  }, function(err) {console.log(err)})
 });
 
 
