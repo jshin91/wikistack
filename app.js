@@ -5,9 +5,8 @@ var app = express();
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var swig = require('swig');
-var wikiRouter = require('./routes/wiki')
 require('./filters')(swig);
-
+var wikiRouter = require('./routes/wiki')
 
 //swig boilerplate
 app.set('views', __dirname + '/views'); 
@@ -16,12 +15,8 @@ app.engine('html', swig.renderFile);
 swig.setDefaults({ cache: false });
 
 app.use(morgan('dev'));
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false })); //for HTML form submits
-
-// parse application/json
-app.use(bodyParser.json()) //for AJAX requests
+app.use(bodyParser.urlencoded({ extended: false })); 
+app.use(bodyParser.json());
 
 app.get('/', function(req, res, next) {
 	res.redirect('/wiki');
