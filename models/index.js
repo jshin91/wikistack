@@ -17,6 +17,23 @@ var pageSchema = new Schema({
   author:   { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
+function generateUrlTitle (title) {
+  if (title) {
+    // Removes all non-alphanumeric characters from title
+    // And make whitespace underscore
+    return title.replace(/\s+/g, '_').replace(/\W/g, '');
+  } else {
+    // Generates random 5 letter string
+    return Math.random().toString(36).substring(2, 7);
+  }
+}
+
+pageSchema.pre('validate', function(next) {
+  this.urlTitle = generateUrlTitle(this.title);
+  console.log(this);
+  next();
+});
+
 pageSchema.virtual('route').get(function() { //maybe this is wrong
 	return '/wiki/' + this.urlTitle;
 })
