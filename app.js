@@ -6,7 +6,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 require('./filters')(swig);
-var wikiRouter = require('./routes/wiki')
 
 //swig boilerplate
 app.set('views', __dirname + '/views'); 
@@ -22,7 +21,12 @@ app.get('/', function(req, res, next) {
 	res.redirect('/wiki');
 })
 
-app.use('/wiki', wikiRouter);
+app.use('/wiki', require('./routes/wiki'));
+app.use('/users', require('./routes/users'));
+app.use(function(err, req, res, next) {
+	console.error(err);
+	res.status(500).send(err.message);
+})
 
 app.use(express.static(__dirname + '/public'));
 
